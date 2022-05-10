@@ -14,7 +14,7 @@ The specific components of <strong>RegEx</strong> we are going to be going throu
 - [Quantifiers](#quantifiers)
 - [Flags](#flags)
 - [Character Escapes](#character-escapes)
-- [Full Examples](#full-example)
+- [Full Examples](#full-examples)
 
 ## Regex Components
 
@@ -59,7 +59,7 @@ Groups are a way for you to seperate parts of a Regular Expression and evaluate 
 
 #### Using groups
 
-We will go into groups further as we use them more in the tutorial as we need to learn a few more things about RegEx before they become useful, but for now we can add a ton of usability to an expression by using the "or" operator. The or operator is denoted by a - ```|``` - and its usage syntax is - ```x|y```. It matches a substring if the substring matches expression x OR expression y. This can be chained with multiple or operators for maximum effect. A very simple but effective implementation of the or operator is when we are looking for words in a sentance. The code for this would be -
+We will go into groups further as we use them more in the tutorial as we need to learn a few more things about RegEx before they become useful, but for now we can add a ton of usability to an expression by using the "or" operator. The or operator is denoted by a - ```|``` - and its usage syntax is - ```x|y```. It matches a substring if the substring matches expression x OR expression y. This can be chained with multiple or operators for maximum effect. A very simple but effective implementation of the "or" operator is when we are looking for words in a sentance. The code for this would be -
 ```
 var text = "Hi, my name is Ben and I like to eat"
 var exp = /name|like/
@@ -72,7 +72,7 @@ second_text.match(exp)
 ```
 
 The main importance of groups is you are able to extract specific information from a regular expression match.<br>
-If you understand the other aspects of RegEx continue to the [full examples](#full-example), otherwise continue to [Ranges and Character Classes](#ranges-and-character-classes)
+If you understand the other aspects of RegEx continue to the [full examples](#full-examples), otherwise continue to [Ranges and Character Classes](#ranges-and-character-classes)
 
 ### Ranges and Character Classes
 
@@ -95,7 +95,11 @@ text = "first"
 console.log(text.match(or_exp), text.match(range_exp))
 // ["f"], ["f"]
 ```
-Both the "or" expression and the range function identically in this case. THe difference between an "or" expression and a range is that a range can only contain single characters not groups like the "or" expression.
+Both the "or" expression and the range function identically in this case. The difference between an "or" expression and a range is that a range can only contain single characters and not groups like the "or" expression. Within a range there are a few special rules as well.<br>
+<strong>First</strong>, periods, ```.```, are treated as a literal ```.```<br>
+<strong>Second</strong>, the hyphen character, ```-```, is treated only as a literal hyphen when being the first or last character in the range. Otherwise, it is used to denote an ascending group of characters.<br>
+<strong>Third</strong>, the rules of [character escapes](#character-escapes) applies (using ```\``` to escape or write a whitespace character), so if you want a backslash, ```\```, you would need to do a double backslash, ```\\```.
+<strong>Last</strong>, since we can't use groups in ranges, parenthesis, ```()```, are treated as a literal ```(``` or ```)```
 
 ### Flags
 
