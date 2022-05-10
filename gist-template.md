@@ -7,7 +7,7 @@ On this page, we will be reviewing the <strong>Regular Expressions</strong> (<st
 The specific components of <strong>RegEx</strong> we are going to be going through are groups, ranges, assertions, quantifiers, character classes, flags, and character escapes. Learning all of these aspects of <strong>RegEx</strong> will allow anyone to build extremely useful <strong>RegEx</strong> statements. I will also explain how multiple components can be compounded to form a more useful expression.
 
 ## Table of Contents
-- [Introduction](#groups)
+- [Introduction](#introduction)
 - [Groups](#groups)
 - [Ranges and Character Classes](#ranges-and-character-classes)
 - [Assertions](#assertions)
@@ -72,11 +72,30 @@ second_text.match(exp)
 ```
 
 The main importance of groups is you are able to extract specific information from a regular expression match.<br>
-If you understand the other aspects of RegEx continue to the full examples, otherwise continue to [Ranges and Character Classes](#ranges-and-character-classes)
+If you understand the other aspects of RegEx continue to the [full examples](#full-example), otherwise continue to [Ranges and Character Classes](#ranges-and-character-classes)
 
 ### Ranges and Character Classes
 
 #### Ranges
+
+Ranges are groups of characters that can be matched. The most direct equivalence would be to a long string of the "or" operator discussed in the [groups](#groups) section. An example of this equivalence would be to look at this example - 
+```
+let or_exp = /a|b|c|d|e|f|g/
+let range_exp = /[abcdefg]/
+
+let text = "first"
+console.log(text.match(or_exp), text.match(range_exp))
+// ["f"], ["f"]
+
+text = "second"
+console.log(text.match(or_exp), text.match(range_exp))
+// ["e"], ["e"]
+
+text = "first"
+console.log(text.match(or_exp), text.match(range_exp))
+// ["f"], ["f"]
+```
+Both the "or" expression and the range function identically in this case. THe difference between an "or" expression and a range is that a range can only contain single characters not groups like the "or" expression.
 
 ### Flags
 
