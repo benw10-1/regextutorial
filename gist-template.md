@@ -9,12 +9,12 @@ The specific components of <strong>RegEx</strong> we are going to be going throu
 ## Table of Contents
 - [Introduction](#groups)
 - [Groups](#groups)
-- [Ranges](#ranges)
+- [Ranges and Character Classes](#ranges-and-character-classes)
 - [Assertions](#assertions)
 - [Quantifiers](#quantifiers)
-- [Character Classes](#character-classes)
 - [Flags](#flags)
 - [Character Escapes](#character-escapes)
+- [Full Examples](#full-example)
 
 ## Regex Components
 
@@ -33,19 +33,50 @@ We can execute a Regular expression in a variety of ways. One way to do it is - 
 ```
 var exp = /I'm/;
 exp.exec("Hi, I'm some text");
-// Output: ["I'm"]
+// Returns: ["I'm"]
 ```
-Without using [groups](#groups), [ranges](#ranges), or [flags](#flags), RegEx will simply look for the specified substring and return it.<br>
+Another more standard way is -
+```
+var exp = /I'm/;
+var text = "Hi, I'm some text"
+text.match(exp)
+// Returns: ["I'm"]
+```
+Without using [groups](#groups), [ranges](#ranges), or [flags](#flags), RegEx will simply look for the specified substring and return the first one it finds that matches the expression.<br>
 If it can't find the substring it will return null instead like here -
 ```
 var exp = /I'm/;
-exp.exec("Hi, some text");
-// Output: null
+var text = "Hi, some text"
+text.match(exp)
+// Returns: null
 ```
 
 ### Groups
 
-### Ranges
+#### What are they?
+
+Groups are a way for you to seperate parts of a Regular Expression and evaluate them independently from the main expression. This means we can look for substrings within our original subtring. An example of such an expression is - ```/(pre)fix/``` - executed on the string . This expression will match the "pre" in "prefix" as well as the entire word "prefix" as well. RegEx looks for the substring "pre" as well as the entire substring "prefix". With the same logic, ```/(pre)(fix)/``` matches with "prefix", "pre", and "fix", and ```/pre(fix)/``` matches with "prefix" and "fix".
+
+#### Using groups
+
+We will go into groups further as we use them more in the tutorial as we need to learn a few more things about RegEx before they become useful, but for now we can add a ton of usability to an expression by using the "or" operator. The or operator is denoted by a - ```|``` - and its usage syntax is - ```x|y```. It matches a substring if the substring matches expression x OR expression y. This can be chained with multiple or operators for maximum effect. A very simple but effective implementation of the or operator is when we are looking for words in a sentance. The code for this would be -
+```
+var text = "Hi, my name is Ben and I like to eat"
+var exp = /name|like/
+text.match(exp)
+// Returns: ["name"]
+
+var second_text = "Hi, my nombre is Ben and I like to eat"
+second_text.match(exp)
+// Returns: ["like"]
+```
+
+The main importance of groups is you are able to extract specific information from a regular expression match.<br>
+If you understand the other aspects of RegEx continue to the full examples, otherwise continue to [Ranges and Character Classes](#ranges-and-character-classes)
+
+### Ranges and Character Classes
+
+#### Ranges
 
 ### Flags
 
@@ -53,9 +84,28 @@ exp.exec("Hi, some text");
 
 ### Quantifiers
 
-### Character Classes
-
 ### Character Escapes
+
+### Full examples
+
+Verify an email - 
+```
+// will match a full email address, its address, and its domain in that order
+// null if email not valid
+let exp = /^([a-z0-9_\.-]+)@([\da-z\.-]+\.[a-z\.]{2,6})$/
+
+let shawn = "shawnce22@msn.com"
+console.log(shawn.match(exp))
+// ["shawnce22@msn.com", "shawnce22", "msn.com"]
+
+let jack = "1999jacks@yahoo.com"
+console.log(jack.match(exp))
+// ["1999jacks@yahoo.com", "1999jacks", "yahoo.com"]
+
+let invalid = "invalid##@email.com"
+console.log(invalid.match(exp))
+// null
+```
 
 ## Author
 
