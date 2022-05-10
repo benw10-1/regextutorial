@@ -10,8 +10,8 @@ The specific components of <strong>RegEx</strong> we are going to be going throu
 - [Introduction](#introduction)
 - [Groups](#groups)
 - [Ranges and Character Classes](#ranges-and-character-classes)
-- [Assertions](#assertions)
 - [Quantifiers](#quantifiers)
+- [Assertions](#assertions)
 - [Flags](#flags)
 - [Character Escapes](#character-escapes)
 - [Full Examples](#full-examples)
@@ -53,9 +53,7 @@ text.match(exp)
 [See It](https://jsfiddle.net/benw_10/d7k8ny5p/)<br><br>
 ### Groups
 
-#### What are they?
-
-Groups are a way for you to seperate parts of a Regular Expression and evaluate them independently from the main expression. This means we can look for substrings within our original subtring. An example of such an expression is - ```/(pre)fix/``` - executed on the string . This expression will match the "pre" in "prefix" in addition to the entire word "prefix". RegEx looks for the substring "pre" as well as the entire substring "prefix". With the same logic, ```/(pre)(fix)/``` matches with "prefix", "pre", and "fix", and ```/pre(fix)/``` matches with "prefix" and "fix".
+Groups are a way to seperate parts of a Regular Expression and evaluate them independently from the main expression. This means we can look for substrings within our original subtring. An example of such an expression is - ```/(pre)fix/``` - executed on the string . This expression will match the "pre" in "prefix" in addition to the entire word "prefix". RegEx looks for the substring "pre" as well as the entire substring "prefix". With the same logic, ```/(pre)(fix)/``` matches with "prefix", "pre", and "fix", and ```/pre(fix)/``` matches with "prefix" and "fix".
 
 #### Using groups
 
@@ -117,6 +115,15 @@ You can see the full list of character classes [here](https://developer.mozilla.
 #### Conclusion
 
 The most important aspect of ranges and character classes is that you save time writing long expressions and looking up specific groups of characters.<br>
+If you understand the other parts of RegEx continue to the [full examples](#full-examples), otherwise continue to [Character Escapes](#character-escapes)
+
+### Character Escapes
+
+Character escapes are ways that you can write literal characters instead of using their character class or token status. We escape a character by starting it with a ```\```. The most common usages for escape characters are when we want to match a literal period - ```\.``` - or a literal backslash - ```\\```. This applies to any character that would otherwise have a seperate meaning like ```*```, ```+```, etc.
+
+#### Conclusion
+
+While character escapes sometimes are not needed, it is good to remember HOW to escape a character.<br>
 If you understand the other parts of RegEx continue to the [full examples](#full-examples), otherwise continue to [Flags](#flags)
 
 ### Flags
@@ -190,11 +197,88 @@ console.log(matches, indices)
 ```
 [See It](https://jsfiddle.net/benw_10/okr6sm5f/)<br><br>
 
-### Assertions
+#### Conclusion
+
+Flags are simple but important components of RegEx. They can be used to make searching large amounts of data easier<br>
+If you understand the other parts of RegEx continue to the [full examples](#full-examples), otherwise continue to [Quantifiers](#quantifiers)
 
 ### Quantifiers
 
-### Character Escapes
+Quantifiers are probably the most useful component of RegEx. They move us past specificality and allow us to be more general with our searches. In summary, a quantifier is used to, well quantify, you can use a variety of syntax to declare HOW MANY of an expression to match. For example, the expression ```x{n}``` will match exactly "n" number of ocurrences of "x" if the occurence of "x" is subsequent, and ```x{n,}``` will match "x" a minimum number of "n" times if the occurence is subsequent. You can see a full list of quantifiers [here](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions/Quantifiers#types).
+
+#### Really useful
+
+We need quantifiers to match variable and flexible information. Now that we know what quantifiers can do, lets try finding all FULL numbers within a string.
+```
+let text = "1777 was a random year, while 2022 is a caotic year. 20 dollars is now 100 dollars."
+
+// + is equivalent to {1,}
+let exp = /[0-9]+/g
+let matches = text.match(exp)
+
+console.log(matches)
+// ["1777", "2022", "20", "100"]
+```
+We can find both full numbers and numbers of a specific length - 
+```
+...
+// specific length substring
+exp = /[0-9]{4}/g
+matches = text.match(exp)
+
+console.log(matches)
+// ["1777", "2022"]
+```
+Another small example would be to match any word seperated by spaces or other non-word characters - 
+```
+text = "Shorter text, for viewing."
+// match all "words"
+exp = /\w+/g
+matches = text.match(exp)
+
+console.log(matches)
+// ["Shorter", "text", "for", "viewing"]
+```
+[See It] (https://jsfiddle.net/benw_10/ywhctp5k/) <br><br>
+
+If you understand the other parts of RegEx continue to the [full examples](#full-examples), otherwise continue to [Assertions](#assertions)
+
+### Assertions
+
+An assertion is essentialy a boundry or condition that must be met to produce a match. The boundry character classes are ```^```, ```$```, ```\b```, and ```\B```.<br>
+```^``` is used to denote the start of input (or the start of a line if using the multi-line flag) and ```$``` is used to denote the end of input (or the end of a line if using the multi-line flag). ```\B``` and ```\b``` will match a substring only if a word or non-word character is present in that position like in the expression - ```\b\w+\b``` - which is a generic way to seperate words by spaces, commas, etc.
+
+#### Peeking around
+
+Other groups of assertions are the lookahead and lookbehind assertions. We can use these to match a substring only if it is followed or preceded by an expression without matching the expression we are checking. These assertions also have a negative variant, which applies the same logic but only match if the expression is not present ahoad of or behind the base expression. For lookahead assertions we use the syntax - ```x(?=y)```. Here, "x" is only matched if followed directly by "y". The negative variant is - ```x(?!y)``` - where x is only matched if not followed directly by "y". For lookbehind assertions we use the syntax - ```(?<=y)x```. Here, "x" is only matched if preceded directly by "y". The negative variant is - ```(?<!y)x``` - where x is only matched if not preceded directly by "y".
+
+These are useful for matching words starting with something without matching the whole word like here -
+```
+let text = "precompute, preprocess, postman, premake, prestage, random"
+// looking behind for our "pre" substring, if it exists then check if it is followed directly by a comma or end of input to seperate each word, and then matching only word characters to remove whitespace 
+let exp = /(?<=pre)\w+(?=,|$)/g
+let matches = text.match(exp)
+
+console.log(matches)
+// ["compute", "process", "make", "stage"]
+```
+We can also use them to verify formats, parse JSON, arrays, etc. like here - 
+```
+// parse a comma/space seperated list into array
+text = `"item1", 2, "item3", 4`
+
+exp = /(?<=")[^",\s]+(?=")|(?<=\s|^)\d/g
+matches = text.match(exp)
+
+console.log(matches)
+// ["item1", "2", "item3", "4"]
+```
+[See It](https://jsfiddle.net/benw_10/7rqtgezj/)<br><br>
+
+#### Conclusion
+
+Assertions are very useful if you want to match a string based on what comes before or after it<br>
+If you understand the other parts of RegEx continue to the [full examples](#full-examples), otherwise you can go back to the table of contents [here](#table-of-contents)
 
 ### Full examples
 
@@ -219,6 +303,60 @@ console.log(invalid.match(exp))
 // null
 ```
 [See It](https://jsfiddle.net/benw_10/Lof2ay0w/)<br><br>
+
+#### Match a URL
+```
+// output format is [isURL, header, apex, domain, path]
+let url_exp = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*(?:\/?)+$/
+
+let me = "https://ben-devs.com"
+console.log(me.match(url_exp))
+// ["https://ben-devs.com/", "https://", "ben-devs", "com", undefined]
+
+let gh = "https://github.com/benw10-1/regextutorial/"
+console.log(gh.match(url_exp))
+// ["https://github.com/benw10-1/regextutorial", "https://", "github", "com", "/benw10-1/regextutorial/"]
+
+let invalid = "suminvalidsit#e.gmail"
+console.log(invalid.match(url_exp))
+// null
+```
+[See It](https://jsfiddle.net/benw_10/35yd6aeh/)<br><br>
+
+#### Markup text
+```
+// text is text to be processed and strong is an array of words to markup
+function markUp(text, strong = []) {
+	// make sure our punctuation isn't already markup up
+  let punc = /(?<!<.*>)[.,\/#!$%\^&\*;:{}=\-_`~()\"\'“”]+(?!<\/.*>)/g
+  // use the replace function [String, replacer_func] to markup all punctuation without re-marking up a character
+  text = text.replace(punc, (match) => {
+    return `<span class="punc">${match.trim()}</span>`
+  })
+  strong.forEach(x => {
+  	if (!x) return
+    // same concept as punctuation, but instead we have the word itself. And to add to the word we find all non whitespace characters that follow the word
+    let reg = new RegExp(`(?<!<.*>)${x}[^\\s$]*(?!<\/.*>)`, "g")
+    text = text.replace(reg, (match) => {
+    	return `<strong>${match}</strong>`
+  	})	
+  })
+
+  return text
+}
+```
+[See It](https://jsfiddle.net/benw_10/vhuzg17e/)<br><br>
+
+#### Get SQL queries without comments
+```
+function arrayify(q) {
+    // line terminators | single-line comments | multi-line comments
+    let nocomment = q.replace(/[\t\r\n]|(--[^\r\n]*)|(\/\*[\w\W]*?(?=\*\/)\*\/)/g, "")
+    // get queries from compressed SQL file
+    return nocomment.match(/[^;]+(;|$)/g)
+}
+```
+[See It](https://jsfiddle.net/benw_10/nqLhxpca/)<br><br>
 
 ## Author
 
