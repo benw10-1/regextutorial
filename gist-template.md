@@ -1,35 +1,31 @@
-# Title (replace with your title)
+# Regex Is Pretty Cool Honestly
 
-Introductory paragraph (replace this with your text)
+On this page, we will be reviewing the <strong>Regular Expressions</strong> (<strong>RegEx</strong>) and their usages. We will go over examples of <strong>RegEx</strong> and their applications as well as specific parts of the <strong>RegEx syntax</strong>.
 
 ## Summary
 
-Briefly summarize the regex you will be describing and what you will explain. Include a code snippet of the regex. Replace this text with your summary.
+The specific components of <strong>RegEx</strong> we are going to be going through are groups, ranges, assertions, quantifiers, character classes, flags, and character escapes. Learning all of these aspects of <strong>RegEx</strong> will allow anyone to build extremely useful <strong>RegEx</strong> statements. I will also explain how multiple components can be compounded to form a more useful expression.
 
 ## Table of Contents
-
-- [Anchors](#anchors)
+- [Groups](#groups)
+- [Ranges](#ranges)
+- [Assertions](#assertions)
 - [Quantifiers](#quantifiers)
-- [Grouping Constructs](#grouping-constructs)
-- [Bracket Expressions](#bracket-expressions)
 - [Character Classes](#character-classes)
-- [The OR Operator](#the-or-operator)
 - [Flags](#flags)
 - [Character Escapes](#character-escapes)
 
 ## Regex Components
 
-### Anchors
+### Groups
+
+### Ranges
+
+### Assertions
 
 ### Quantifiers
 
-### Grouping Constructs
-
-### Bracket Expressions
-
 ### Character Classes
-
-### The OR Operator
 
 ### Flags
 
@@ -37,4 +33,6 @@ Briefly summarize the regex you will be describing and what you will explain. In
 
 ## Author
 
-A short section about the author with a link to the author's GitHub profile (replace with your information and a link to your profile)
+Ben Wirth<br>
+[GitHub Repo](https://github.com/benw10-1/bugTracker)<br>
+[Website](https://ben-devs.com)
