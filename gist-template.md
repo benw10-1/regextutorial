@@ -239,7 +239,7 @@ matches = text.match(exp)
 console.log(matches)
 // ["Shorter", "text", "for", "viewing"]
 ```
-[See It] (https://jsfiddle.net/benw_10/ywhctp5k/) <br><br>
+[See It](https://jsfiddle.net/benw_10/ywhctp5k/)<br><br>
 
 If you understand the other parts of RegEx continue to the [full examples](#full-examples), otherwise continue to [Assertions](#assertions)
 
